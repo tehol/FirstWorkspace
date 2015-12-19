@@ -2,8 +2,9 @@
 package main
 
 import (
-	"Playground/FirstSubPkg"
 	"fmt"
+
+	"github.com/Startup/Playground/FirstSubPkg"
 )
 
 func main() {
@@ -15,5 +16,5 @@ func main() {
 
 	}
 	fmt.Printf("1-10 total:%v\n", total)
-	fmt.Println(Test())
+	fmt.Println(FirstSubPkg.Test())
 }
