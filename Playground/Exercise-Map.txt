@@ -1,0 +1,19 @@
+package main
+
+import (
+	"golang.org/x/tour/wc"
+	"strings"
+)
+
+func WordCount(s string) map[string]int {
+	 wordList := strings.Fields(s)
+	result := make(map[string]int)
+	for i:=0;i<len(wordList);i++ {
+		result[wordList[i]] = result[wordList[i]] + 1
+	}
+	return result
+}
+
+func main() {
+	wc.Test(WordCount)
+}
