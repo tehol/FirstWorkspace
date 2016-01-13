@@ -4,14 +4,12 @@ package main
 import (
 	"fmt"
 
-	"crypto/sha256"
 	"database/sql"
-	"encoding/base64"
 
 	"log"
-	"strings"
 
 	"github.com/Startup/Playground/FirstSubPkg"
+	"github.com/Startup/Playground/hash"
 	_ "github.com/jackc/pgx/stdlib"
 )
 
@@ -26,26 +24,9 @@ func main() {
 	fmt.Printf("1-10 total:%v\n", total)
 	fmt.Println(FirstSubPkg.Test())
 	//insertTestData()
-	fmt.Printf("Hashed abcd:%v\n", hashString("abcd"))
-	fmt.Printf("Base 64 encode abcd:%v\n", encodeBase64([]byte("abcd")))
+	fmt.Printf("Hashed abcd:%v\n", hash.HashString("abcd"))
+	fmt.Printf("Base 64 encode abcd:%v\n", hash.EncodeBase64([]byte("abcd")))
 
-}
-
-func hashString(s string) (hashString string) {
-
-	reader := strings.NewReader(s)
-	size := reader.Size()
-	data := make([]byte, size)
-	reader.Read(data)
-	hash := sha256.Sum256(data)
-	fmt.Println(hash)
-	hashString = encodeBase64(hash[:])
-	return
-}
-
-func encodeBase64(data []byte) string {
-	hashString := base64.StdEncoding.EncodeToString(data)
-	return hashString
 }
 
 func insertTestData() {
