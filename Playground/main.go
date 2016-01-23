@@ -10,6 +10,7 @@ import (
 
 	"github.com/Startup/Playground/FirstSubPkg"
 	"github.com/Startup/Playground/hash"
+	"github.com/Startup/Playground/rest"
 	_ "github.com/jackc/pgx/stdlib"
 )
 
@@ -26,6 +27,8 @@ func main() {
 	//insertTestData()
 	fmt.Printf("Hashed abcd:%v\n", hash.HashString("abcd"))
 	fmt.Printf("Base 64 encode abcd:%v\n", hash.EncodeBase64([]byte("abcd")))
+
+	rest.StartRestServer(":8443")
 
 }
 
