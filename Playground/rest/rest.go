@@ -1,7 +1,10 @@
 package rest
 
 import (
+	"encoding/json"
+	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -21,8 +24,36 @@ func authenticate(rw http.ResponseWriter, request *http.Request) {
 	io.WriteString(rw, "Authenticate is called.")
 }
 
-func createUser(rw http.ResponseWriter, request *http.Request) {
+type User struct {
+	Username string `Json: Username string`
+	Password string `Json: Password string`
+}
 
+func createUser(rw http.ResponseWriter, request *http.Request) {
+	fmt.Println(request.RemoteAddr)
+	fmt.Println(request.Method)
+	if request.Method != "POST" {
+		io.WriteString(rw, "HTTP Method is not supported.")
+		return
+	}
+
+	body, err := ioutil.ReadAll(io.LimitReader(request.Body, 512))
+	if err != nil {
+		panic(err)
+	}
+	if err := request.Body.Close(); err != nil {
+		panic(err)
+	}
+	var user User
+	if err := json.Unmarshal(body, &user); err != nil {
+		rw.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		rw.WriteHeader(422) // unprocessable entity
+		if err := json.NewEncoder(rw).Encode(err); err != nil {
+			panic(err)
+		}
+	}
+	fmt.Print(user)
+	rw.WriteHeader(http.StatusOK)
 	io.WriteString(rw, "Create user is called.")
 
 }
